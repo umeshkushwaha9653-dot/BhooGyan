@@ -12,10 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Organize Dart Files into lib Directory
+      - name: Create lib directory and move dart files
         run: |
           mkdir -p lib
-          mv *.dart lib/ 2>/dev/null || true
+          find . -maxdepth 1 -name "*.dart" -exec mv {} lib/ \;
 
       - name: Set up Java
         uses: actions/setup-java@v3
@@ -40,3 +40,4 @@ jobs:
         with:
           name: BhooGyan-App-Release
           path: build/app/outputs/flutter-apk/app-release.apk
+          
