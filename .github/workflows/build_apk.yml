@@ -32,6 +32,19 @@ jobs:
           cp -r temp_src/*.dart lib/ 2>/dev/null || true
           cp temp_src/pubspec.yaml .
           rm -rf temp_src
+
+          # Create proper MainActivity.kt
+          mkdir -p android/app/src/main/kotlin/com/bhoogyan/app
+          cat << 'EOF' > android/app/src/main/kotlin/com/bhoogyan/app/MainActivity.kt
+          package com.bhoogyan.app
+
+          import io.flutter.embedding.android.FlutterActivity
+
+          class MainActivity: FlutterActivity() {
+          }
+          EOF
+
+          # Create Working build.gradle (Disabling shrinker to fix crash)
           cat << 'EOF' > android/app/build.gradle
           plugins {
               id "com.android.application"
@@ -54,6 +67,8 @@ jobs:
               buildTypes {
                   release {
                       signingConfig signingConfigs.debug
+                      minifyEnabled false
+                      shrinkResources false
                   }
               }
           }
@@ -89,4 +104,3 @@ jobs:
         with:
           name: BhooGyan-App-Release
           path: build/app/outputs/flutter-apk/app-release.apk
-          
