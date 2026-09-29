@@ -44,7 +44,7 @@ jobs:
           }
           EOF
 
-          # Create Working build.gradle (Disabling shrinker to fix crash)
+          # Create Working build.gradle
           cat << 'EOF' > android/app/build.gradle
           plugins {
               id "com.android.application"
@@ -86,6 +86,22 @@ jobs:
           }
           EOF
 
+      - name: Set App Launcher Icon
+        run: |
+          if [ -f "app_icon.png" ]; then
+            mkdir -p android/app/src/main/res/mipmap-hdpi
+            mkdir -p android/app/src/main/res/mipmap-mdpi
+            mkdir -p android/app/src/main/res/mipmap-xhdpi
+            mkdir -p android/app/src/main/res/mipmap-xxhdpi
+            mkdir -p android/app/src/main/res/mipmap-xxxhdpi
+
+            cp app_icon.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+            cp app_icon.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+            cp app_icon.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+            cp app_icon.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+            cp app_icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          fi
+
       - name: Fix Code Errors Automatically
         run: |
           find lib/ -type f -name "*.dart" -exec sed -i 's/EdgeInsets\.vertical\(([0-9]*)\)/EdgeInsets.symmetric(vertical: \1)/g' {} +
@@ -104,3 +120,4 @@ jobs:
         with:
           name: BhooGyan-App-Release
           path: build/app/outputs/flutter-apk/app-release.apk
+          
