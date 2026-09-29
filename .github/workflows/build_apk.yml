@@ -38,6 +38,7 @@ jobs:
           find lib/ -type f -name "*.dart" -exec sed -i 's/EdgeInsets\.vertical(\([0-9]*\))/EdgeInsets.symmetric(vertical: \1)/g' {} +
           find lib/ -type f -name "*.dart" -exec sed -i 's/Colors\.black70/Colors.black54/g' {} +
           find lib/ -type f -name "*.dart" -exec sed -i 's/: black70/: Colors.black54/g' {} +
+          find lib/ -type f -name "*.dart" -exec sed -i 's/ConstructionCalculatorScreen/ConstructionCalculator/g' {} +
 
       - name: Install Dependencies
         run: flutter pub get
@@ -50,4 +51,4 @@ jobs:
         with:
           name: BhooGyan-App-Release
           path: build/app/outputs/flutter-apk/app-release.apk
-        
+          
