@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.6
   share_plus: ^8.0.0
+  pdf: ^3.10.8
+  printing: ^5.13.0
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +22,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
