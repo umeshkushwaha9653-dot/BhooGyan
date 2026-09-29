@@ -15,27 +15,65 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          distribution: "zulu"
+          java-version: "17"
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.x'
-          channel: 'stable'
+          flutter-version: "3.19.x"
+          channel: "stable"
 
       - name: Reconstruct Flutter Project Structure
         run: |
           mkdir temp_src
           mv *.dart pubspec.yaml temp_src/ 2>/dev/null || true
-          flutter create . --org com.bhoogyan.app --project-name bhoogyan
+          flutter create --org com.bhoogyan.app --project-name bhoogyan .
           cp -r temp_src/*.dart lib/ 2>/dev/null || true
           cp temp_src/pubspec.yaml .
           rm -rf temp_src
+          cat << 'EOF' > android/app/build.gradle
+          plugins {
+              id "com.android.application"
+              id "kotlin-android"
+              id "dev.flutter.flutter-gradle-plugin"
+          }
+
+          android {
+              namespace "com.bhoogyan.app"
+              compileSdk 34
+
+              defaultConfig {
+                  applicationId "com.bhoogyan.app"
+                  minSdk 21
+                  targetSdk 34
+                  versionCode 1
+                  versionName "1.0.0"
+              }
+
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.debug
+                  }
+              }
+          }
+
+          flutter {
+              source '../..'
+          }
+
+          configurations.all {
+              resolutionStrategy {
+                  force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
+                  force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22"
+                  force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22"
+              }
+          }
+          EOF
 
       - name: Fix Code Errors Automatically
         run: |
-          find lib/ -type f -name "*.dart" -exec sed -i 's/EdgeInsets\.vertical(\([0-9]*\))/EdgeInsets.symmetric(vertical: \1)/g' {} +
+          find lib/ -type f -name "*.dart" -exec sed -i 's/EdgeInsets\.vertical\(([0-9]*)\)/EdgeInsets.symmetric(vertical: \1)/g' {} +
           find lib/ -type f -name "*.dart" -exec sed -i 's/Colors\.black70/Colors.black54/g' {} +
           find lib/ -type f -name "*.dart" -exec sed -i 's/: black70/: Colors.black54/g' {} +
           find lib/ -type f -name "*.dart" -exec sed -i 's/ConstructionCalculatorScreen/ConstructionCalculator/g' {} +
