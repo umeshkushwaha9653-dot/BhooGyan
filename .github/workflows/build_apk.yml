@@ -12,11 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create lib directory and move dart files
-        run: |
-          mkdir -p lib
-          find . -maxdepth 1 -name "*.dart" -exec mv {} lib/ \;
-
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -29,6 +24,15 @@ jobs:
           flutter-version: '3.19.x'
           channel: 'stable'
 
+      - name: Reconstruct Flutter Project Structure
+        run: |
+          mkdir temp_src
+          mv *.dart pubspec.yaml temp_src/ 2>/dev/null || true
+          flutter create . --org com.bhoogyan.app --project-name bhoogyan
+          cp -r temp_src/*.dart lib/ 2>/dev/null || true
+          cp temp_src/pubspec.yaml .
+          rm -rf temp_src
+
       - name: Install Dependencies
         run: flutter pub get
 
@@ -40,4 +44,3 @@ jobs:
         with:
           name: BhooGyan-App-Release
           path: build/app/outputs/flutter-apk/app-release.apk
-          
