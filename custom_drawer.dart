@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -23,6 +24,12 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
+  void _shareApp() {
+    // यहाँ आप अपने Play Store का लिंक डाल सकते हैं
+    const String appLink = "https://play.google.com/store/apps/details?id=com.bhoogyan.app";
+    Share.share("भू-ज्ञान ऐप डाउनलोड करें और भूमि मापन व निर्माण गणनाएं आसानी से करें:\n$appLink");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -36,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  crossAxisAlignment: CrossAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     Text(
                       'भू-ज्ञान सहायता केंद्र',
@@ -51,7 +58,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.share, color: Colors.grey),
-                  onPressed: () {},
+                  onPressed: _shareApp,
                 ),
               ],
             ),
@@ -64,50 +71,88 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   title: 'संपर्क करें',
                   subtitle: 'हेल्पलाइन नंबर और कस्टमर सपोर्ट',
-                  dialogTitle: 'संपर्क करें',
-                  dialogContent: 'ईमेल: support@bhoogyan.app\nहेल्पलाइन: +91 1800-XXX-XXXX\nसमय: सुबह 9 से शाम 6 बजे तक',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showDialog(
+                      context,
+                      'संपर्क करें',
+                      'ईमेल: support@bhoogyan.app\nहेल्पलाइन: +91 1800-XXX-XXXX\nसमय: सुबह 9 से शाम 6 बजे तक',
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context,
                   title: 'हमारे बारे में',
                   subtitle: 'भू-ज्ञान ऐप और सेवाओं की जानकारी',
-                  dialogTitle: 'हमारे बारे में',
-                  dialogContent: 'भू-ज्ञान ऐप आपको भूमि मापन, निर्माण कैलकुलेटर और वित्तीय गणनाओं के लिए आसान उपकरण प्रदान करता है।',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showDialog(
+                      context,
+                      'हमारे बारे में',
+                      'भू-ज्ञान ऐप आपको भूमि मापन, निर्माण कैलकुलेटर और वित्तीय गणनाओं के लिए आसान उपकरण प्रदान करता है।',
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context,
                   title: 'नियम एवं शर्तें',
                   subtitle: 'उपयोग की शर्तें और लीगल नीतियां',
-                  dialogTitle: 'नियम एवं शर्तें',
-                  dialogContent: 'इस ऐप का उपयोग केवल सामान्य जानकारी और मापन उद्देश्यों के लिए किया जाता है।',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showDialog(
+                      context,
+                      'नियम एवं शर्तें',
+                      'इस ऐप का उपयोग केवल सामान्य जानकारी और मापन उद्देश्यों के लिए किया जाता है।',
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context,
                   title: 'गोपनीयता नीति',
                   subtitle: 'डेटा सुरक्षा और गोपनीयता नियम',
-                  dialogTitle: 'गोपनीयता नीति',
-                  dialogContent: 'हम आपकी गोपनीयता का सम्मान करते हैं। आपका कोई भी व्यक्तिगत डेटा बिना आपकी अनुमति के साझा नहीं किया जाता है।',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showDialog(
+                      context,
+                      'गोपनीयता नीति',
+                      'हम आपकी गोपनीयता का सम्मान करते हैं। आपका कोई भी व्यक्तिगत डेटा बिना आपकी अनुमति के साझा नहीं किया जाता है।',
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context,
                   title: 'शिकायत दर्ज करें',
                   subtitle: 'समस्या या बग की तुरंत रिपोर्ट करें',
-                  dialogTitle: 'शिकायत दर्ज करें',
-                  dialogContent: 'यदि आपको ऐप में कोई समस्या आती है, तो कृपया support@bhoogyan.app पर समस्या का विवरण भेजें।',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showDialog(
+                      context,
+                      'शिकायत दर्ज करें',
+                      'यदि आपको ऐप में कोई समस्या आती है, तो कृपया support@bhoogyan.app पर समस्या का विवरण भेजें।',
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context,
                   title: 'सुझाव एवं प्रतिक्रिया',
                   subtitle: 'ऐप सुधार हेतु अपना सुझाव भेजें',
-                  dialogTitle: 'सुझाव एवं प्रतिक्रिया',
-                  dialogContent: 'आपके सुझाव हमारे लिए मूल्यवान हैं! अपना फीडबैक हमें ईमेल द्वारा भेजें।',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _showDialog(
+                      context,
+                      'सुझाव एवं प्रतिक्रिया',
+                      'आपके सुझाव हमारे लिए मूल्यवान हैं! अपना फीडबैक हमें ईमेल द्वारा भेजें।',
+                    );
+                  },
                 ),
                 _buildDrawerItem(
                   context,
                   title: 'ऐप शेयर करें',
                   subtitle: 'दोस्तों और परिवार के साथ साझा करें',
-                  dialogTitle: 'ऐप शेयर करें',
-                  dialogContent: 'अपने दोस्तों और परिवार के साथ भू-ज्ञान ऐप शेयर करें ताकि वे भी इसका लाभ उठा सकें!',
+                  onTap: () {
+                    Navigator.pop(context);
+                    _shareApp();
+                  },
                 ),
               ],
             ),
@@ -128,8 +173,7 @@ class CustomDrawer extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String subtitle,
-    required String dialogTitle,
-    required String dialogContent,
+    required VoidCallback onTap,
   }) {
     return ListTile(
       leading: const Icon(Icons.circle, color: Colors.amber, size: 10),
@@ -141,10 +185,7 @@ class CustomDrawer extends StatelessWidget {
         subtitle,
         style: const TextStyle(color: Colors.grey, fontSize: 12),
       ),
-      onTap: () {
-        Navigator.pop(context);
-        _showDialog(context, dialogTitle, dialogContent);
-      },
+      onTap: onTap,
     );
   }
 }
