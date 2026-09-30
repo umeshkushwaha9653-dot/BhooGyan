@@ -12,7 +12,7 @@ class BhooGyanApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'BhooGyan',
+      title: 'Bhoo Gyan',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF121212),
       ),
