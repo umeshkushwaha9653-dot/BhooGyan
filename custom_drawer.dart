@@ -76,7 +76,7 @@ class CustomDrawer extends StatelessWidget {
                     _showDialog(
                       context,
                       'संपर्क करें',
-                      'ईमेल: support@bhoogyan.app\nहेल्पलाइन: +91 1800-XXX-XXXX\nसमय: सुबह 9 से शाम 6 बजे तक',
+                      'ईमेल: Umeshkushwaha9653@gmail.com\nहेल्पलाइन: +91 9653214865nसमय: सुबह 9 से शाम 6 बजे तक',
                     );
                   },
                 ),
